@@ -128,7 +128,7 @@ public class MovieFragment extends Fragment {
             {
                 posterUrls[i] = IMAGE_URL + movieArrayList.get(i).getsPosterPath();
             }
-            Log.v(LOG_TAG, "Movie entry: " +  posterUrls[i]);
+            //Log.v(LOG_TAG, "Movie entry: " +  posterUrls[i]);
         }
 
         GridView gView = (GridView) rootView.findViewById(R.id.gridViewMovie);
