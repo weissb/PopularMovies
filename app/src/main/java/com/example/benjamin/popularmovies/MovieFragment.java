@@ -70,14 +70,41 @@ public class MovieFragment extends Fragment {
         //ui picture will be build over method setMovieImage which is executet on onPostExecute from fetchData AsyncTask
         //so datas can be loadet at start and whanever i want ober the fetch class and gui will always be responsible
 
-        FetchMovieTask fetchMovie = new FetchMovieTask();
-        fetchMovie.execute("popularity.desc");
-
+        super.onCreate(savedInstanceState); // Always call the superclass first
+        //create rootview first
         rootView = inflater.inflate(R.layout.fragment_movie, container, false);
+
+        // when there is a saved instance, dont load new data from internet
+        //just get the patacelable array and write pictures out of it
+        //no need to save the pictures in an array and also give it as array here, picasso should handle caching automaticly
+        if (savedInstanceState != null) {
+
+            movieArrayList = savedInstanceState.getParcelableArrayList("key");
+
+            //Log.v(LOG_TAG, movieArrayList.get(0).getsPosterPath());
+            setMovieImages();
+            //on first start, get the datas normaly
+        } else {
+            FetchMovieTask fetchMovie = new FetchMovieTask();
+            fetchMovie.execute("popularity.desc");
+
+            // Probably initialize members with default values for a new instance
+        }
+
 
         return rootView;
 
     }
+
+    //write the movieList in savedinstance so we can get i back on resume/rotate
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putParcelableArrayList("key", movieArrayList);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -144,7 +171,7 @@ public class MovieFragment extends Fragment {
 
                 //create explizit intent for details
                 //send position whit it so we can do the details
-                //also send the movieitem from the current movie which has to be serialazable for that.
+                //also send the movieitem from the current movie which has to be Parcelable for that.
 
 
                 Intent detailIntent = new Intent(getActivity(), DetailMovieActivity.class)
@@ -314,6 +341,7 @@ public class MovieFragment extends Fragment {
                 }
 
             }
+           // Log.v(LOG_TAG,"DATA LOADED FROM MOVIEDB*****************");
             return movieData;
         }
 
@@ -351,7 +379,7 @@ public class MovieFragment extends Fragment {
                     .load(imageUrls[position])
                     .fit() // will explain later
                     .into((ImageView) convertView);
-
+            //Log.v(LOG_TAG, "PICTURE LOADED FROM MOVIEDB*****************");
             return convertView;
         }
     }

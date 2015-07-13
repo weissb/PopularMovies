@@ -32,7 +32,7 @@ public class DetailMovieActivity extends ActionBarActivity {
         //Log.v(LOG_TAG, "POSITION " + id);
 
         //movie item
-        MovieItem movie = (MovieItem) intent.getSerializableExtra("movieItem");
+        MovieItem movie = (MovieItem) intent.getParcelableExtra("movieItem");
 
         //set up gui elements
         TextView title = (TextView) findViewById(R.id.tVMovieTitle);
