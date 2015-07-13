@@ -48,7 +48,7 @@ import java.util.ArrayList;
 public class MovieFragment extends Fragment {
     //vars
     private final String LOG_TAG = MovieFragment.class.getSimpleName();
-    ArrayList<MovieItem> movieArrayList;
+    ArrayList<MovieItem> movieArrayList=new ArrayList<MovieItem>();
     View rootView;
 
 
@@ -148,7 +148,7 @@ public class MovieFragment extends Fragment {
         for(int i = 0 ; i< posterUrls.length ;i++)
         {
             //replace picture if there is no poster available
-            if(movieArrayList.get(i).getsPosterPath()=="null") {
+            if(movieArrayList.get(i).getsPosterPath().contentEquals("null")) {
                 posterUrls[i] = "http://i.i.cbsi.com/cnwk.1d/i/tim//2010/01/31/fmimg2276274178127844128.jpg";
             }
             else
